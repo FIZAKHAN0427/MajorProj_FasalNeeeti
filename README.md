@@ -37,7 +37,7 @@ A React.js frontend application designed for Indian farmers, providing AI-powere
 
 1. **Clone or navigate to the project directory:**
    ```bash
-   cd c:\Users\FIZA\OneDrive\Desktop\111\majorproj
+   git clone https://github.com/FIZAKHAN0427/MajorProj_FasalNeeeti.git
    ```
 
 2. **Install frontend dependencies:**
