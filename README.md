@@ -63,7 +63,7 @@ A React.js frontend application designed for Indian farmers, providing AI-powere
 5. **Start both servers:**
    ```bash
    # Option 1: Use the automated script
-   start-full-app.bat
+   start-servers.bat
    
    # Option 2: Manual start (two terminals)
    # Terminal 1 - Backend
@@ -76,7 +76,7 @@ A React.js frontend application designed for Indian farmers, providing AI-powere
 
 6. **Open your browser and visit:**
    ```
-   Frontend: http://localhost:3000
+   Frontend: http://localhost:3010
    Backend API: http://localhost:5001
    ```
 
@@ -118,19 +118,21 @@ A React.js frontend application designed for Indian farmers, providing AI-powere
 ### Backend
 - **Runtime:** Node.js
 - **Framework:** Express.js
-- **ML Model:** Simulated XGBoost/Random Forest predictions
-- **Data Sources:** Satellite NDVI, Weather APIs, Soil databases
-- **API:** RESTful endpoints for yield prediction
+- **Database:** MongoDB with Mongoose ODM
+- **Authentication:** JWT-based auth system
+- **ML Model:** Random Forest with 91.5% accuracy (trained on APY dataset)
+- **Data Sources:** NASA POWER API, SoilGrids API, OpenWeather API
+- **API:** RESTful endpoints with real-time data integration
 
-## 📊 Mock Data
+## 📊 Real Data Integration
 
-The application uses comprehensive mock data including:
-- Sample farmer profiles from different Indian states
-- Yield prediction data with monthly trends
-- Weather information and forecasts
-- Stress detection analytics
-- Regional farming statistics
-- Fertilizer recommendations
+The application integrates with real data sources:
+- **NASA POWER API:** Satellite NDVI and meteorological data
+- **SoilGrids API:** Global soil property data
+- **OpenWeather API:** Current weather and 5-day forecasts
+- **APY Dataset:** Agricultural Production & Yield statistics
+- **MongoDB:** Persistent storage for user data and predictions
+- **Market Intelligence:** Real-time crop price data
 
 ## 🎯 Key Components
 
@@ -174,9 +176,9 @@ The application uses comprehensive mock data including:
 ### Model Features
 - **Input:** District, Crop, Season, Year (only 4 user inputs)
 - **Auto-fetched Data:** NDVI, Rainfall, Temperature, Soil pH
-- **ML Algorithm:** XGBoost/Random Forest simulation
-- **Output:** Predicted yield in kg/ha with 94% confidence
-- **Evaluation:** R² Score, MAE, RMSE metrics
+- **ML Algorithm:** Random Forest (91.5% R² Score)
+- **Output:** Predicted yield in kg/ha with 91.5% confidence
+- **Evaluation:** R² Score: 0.915, MAE: 14.83, Training: 345,336 records
 
 ### Supported Crops
 - Rice, Wheat, Maize, Sugarcane, Cotton

@@ -5,22 +5,34 @@ const MarketPrices = ({ crop, district }) => {
   const [prices, setPrices] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Mock market prices (in real app, fetch from API)
-  const mockPrices = {
-    'Rice': { current: 2800, trend: '+5%', forecast: 2950 },
-    'Wheat': { current: 2200, trend: '+2%', forecast: 2250 },
-    'Maize': { current: 1800, trend: '-3%', forecast: 1750 },
-    'Sugarcane': { current: 350, trend: '+8%', forecast: 380 },
-    'Cotton': { current: 6500, trend: '+12%', forecast: 7200 }
-  };
-
   useEffect(() => {
-    // Simulate API call
-    setTimeout(() => {
-      setPrices(mockPrices[crop] || mockPrices['Rice']);
-      setLoading(false);
-    }, 1000);
-  }, [crop]);
+    const fetchMarketPrices = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(`http://localhost:5001/api/market-prices?crop=${crop}&district=${district}`);
+        
+        if (response.ok) {
+          const result = await response.json();
+          if (result.success) {
+            setPrices(result.data);
+          } else {
+            throw new Error('Failed to fetch market prices');
+          }
+        } else {
+          throw new Error('Market prices API unavailable');
+        }
+      } catch (error) {
+        console.error('Market prices error:', error);
+        setPrices(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (crop && district) {
+      fetchMarketPrices();
+    }
+  }, [crop, district]);
 
   if (loading) {
     return (
@@ -33,8 +45,21 @@ const MarketPrices = ({ crop, district }) => {
     );
   }
 
-  const trendColor = prices.trend.startsWith('+') ? 'text-green-600' : 'text-red-600';
-  const trendIcon = prices.trend.startsWith('+') ? '📈' : '📉';
+  if (!prices) {
+    return (
+      <div className="bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg border border-yellow-200 dark:border-yellow-800">
+        <h4 className="text-lg font-semibold text-secondary-900 dark:text-white mb-2">
+          💰 Market Prices - {crop}
+        </h4>
+        <p className="text-secondary-600 dark:text-secondary-400">
+          Market price data is currently unavailable. Please check your internet connection or try again later.
+        </p>
+      </div>
+    );
+  }
+
+  const trendColor = prices.trend?.startsWith('+') ? 'text-green-600' : 'text-red-600';
+  const trendIcon = prices.trend?.startsWith('+') ? '📈' : '📉';
 
   return (
     <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg border border-green-200 dark:border-green-800">
@@ -66,7 +91,7 @@ const MarketPrices = ({ crop, district }) => {
       </div>
       
       <div className="mt-3 text-xs text-secondary-500 dark:text-secondary-400">
-        📍 Prices for {district} market • Updated 2 hours ago
+        📍 Prices for {district} market • Updated {new Date().toLocaleTimeString()}
       </div>
     </div>
   );

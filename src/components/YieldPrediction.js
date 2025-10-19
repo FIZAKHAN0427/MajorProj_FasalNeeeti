@@ -186,7 +186,7 @@ const YieldPrediction = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="bg-primary-50 dark:bg-primary-900/20 rounded-lg p-4">
               <div className="text-3xl font-bold text-primary-600 mb-2">
-                {formatNumber(prediction.predicted_yield)} kg/ha
+                {formatNumber(prediction.predicted_yield / 10)} tons/ha
               </div>
               <div className="text-sm text-primary-700 dark:text-primary-400">
                 Predicted Yield
@@ -195,10 +195,15 @@ const YieldPrediction = () => {
 
             <div className="bg-accent-50 dark:bg-accent-900/20 rounded-lg p-4">
               <div className="text-3xl font-bold text-accent-600 mb-2">
-                {formatInteger(prediction.total_production)} kg
+                {formatInteger(prediction.total_production / 10)} kg
               </div>
               <div className="text-sm text-accent-700 dark:text-accent-400">
                 Total Production ({formatNumber(prediction.area)} ha)
+
+
+
+
+
               </div>
             </div>
 
